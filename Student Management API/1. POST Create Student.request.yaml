@@ -1,0 +1,17 @@
+$kind: http-request
+description: Creates a new student record in MongoDB Atlas
+url: http://localhost:5000/api/students
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Aarav Sharma",
+      "email": "aarav.sharma@example.com",
+      "rollNumber": "CS2026-001",
+      "course": "Computer Science & Engineering",
+      "yearOfStudy": 3
+    }
+order: 2000

@@ -1,0 +1,5 @@
+$kind: http-request
+description: Retrieves the list of all students sorted by most recently created
+url: http://localhost:5000/api/students
+method: GET
+order: 3000

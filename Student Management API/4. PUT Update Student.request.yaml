@@ -1,0 +1,15 @@
+$kind: http-request
+description: Updates student information by MongoDB _id
+url: http://localhost:5000/api/students/REPLACE_WITH_STUDENT_ID
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Aarav Sharma (Updated)",
+      "course": "Data Science & AI",
+      "yearOfStudy": 4
+    }
+order: 5000

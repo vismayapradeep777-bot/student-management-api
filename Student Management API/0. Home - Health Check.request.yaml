@@ -1,0 +1,6 @@
+$kind: http-request
+name: 0. Home / Health Check
+description: Verify that Express server is running smoothly on localhost:5000
+url: http://localhost:5000/
+method: GET
+order: 1000
