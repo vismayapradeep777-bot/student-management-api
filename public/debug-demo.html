@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management API - Debugging Demo</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f4f6f8;
+      color: #333;
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 { color: #2b6cb0; margin-top: 0; }
+    h2 { color: #4a5568; margin-top: 25px; border-bottom: 2px solid #edf2f7; padding-bottom: 8px; }
+    .card {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    button {
+      background-color: #3182ce;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    button:hover { background-color: #2b6cb0; }
+    .output-box {
+      margin-top: 15px;
+      padding: 12px;
+      background: #1a202c;
+      color: #68d391;
+      font-family: 'Courier New', Courier, monospace;
+      border-radius: 4px;
+      min-height: 40px;
+      white-space: pre-wrap;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background-color: #e2e8f0;
+      color: #4a5568;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎓 JavaScript Debugging Demonstration Lab</h1>
+    <p>This page was created for your <strong>College Viva / 3rd Evaluation</strong> to demonstrate Browser Developer Tools live to your evaluator.</p>
+    
+    <div class="card">
+      <h3>Demo 1: Calculate Student Grade (Step Over, Step Into, Watch, Call Stack)</h3>
+      <p>Click the button below to execute a nested calculation. Open <strong>Developer Tools (F12)</strong> &rarr; <strong>Sources</strong> tab &rarr; find <code>debug-demo.html</code> &rarr; set a breakpoint on line 95.</p>
+      <button onclick="startGradeCalculation()">Run Grade Calculation</button>
+      <div id="output1" class="output-box">// Results will appear here after calculation</div>
+    </div>
+
+    <div class="card">
+      <h3>Demo 2: Fetch Students from Backend API (Network Tab & Async Debugging)</h3>
+      <p>Demonstrates debugging asynchronous API requests (<code>fetch</code>) and inspecting Network headers, payloads, and response status.</p>
+      <button onclick="fetchApiStudents()">Fetch Students from /api/students</button>
+      <div id="output2" class="output-box">// API response will appear here</div>
+    </div>
+  </div>
+
+  <script>
+    // --- DEMO 1: Nested Functions for Call Stack & Step Into Demonstration ---
+
+    function calculateTotal(marks) {
+      console.log('Inside calculateTotal() with marks:', marks);
+      let sum = 0;
+      for (let i = 0; i < marks.length; i++) {
+        sum += marks[i]; // <--- Set Breakpoint Here to demonstrate Step Over (F10)
+      }
+      return sum;
+    }
+
+    function determineGrade(average) {
+      console.log('Inside determineGrade() with average:', average);
+      if (average >= 90) return 'A+';
+      if (average >= 75) return 'A';
+      if (average >= 60) return 'B';
+      if (average >= 50) return 'C';
+      return 'F';
+    }
+
+    function startGradeCalculation() {
+      console.clear();
+      console.log('▶️ Grade Calculation Demo Started');
+
+      const studentName = 'Aarav Sharma';
+      const marks = [85, 92, 78, 88, 95]; // 5 subjects
+
+      // Step Into (F11) to inspect how calculateTotal works
+      const totalMarks = calculateTotal(marks);
+      const averageMarks = totalMarks / marks.length;
+      
+      // Step Into (F11) to inspect determineGrade
+      const finalGrade = determineGrade(averageMarks);
+
+      const result = {
+        name: studentName,
+        total: totalMarks,
+        average: averageMarks.toFixed(2),
+        grade: finalGrade
+      };
+
+      console.table([result]);
+      document.getElementById('output1').textContent = JSON.stringify(result, null, 2);
+    }
+
+    // --- DEMO 2: API Fetch Call ---
+    async function fetchApiStudents() {
+      const output = document.getElementById('output2');
+      output.textContent = 'Fetching data from http://localhost:5000/api/students ...';
+      try {
+        const response = await fetch('/api/students');
+        const data = await response.json();
+        console.log('API Response received:', data);
+        output.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error('Fetch error:', err);
+        output.textContent = 'Error connecting to API: ' + err.message + '\n(Make sure the backend server is running!)';
+      }
+    }
+  </script>
+</body>
+</html>
